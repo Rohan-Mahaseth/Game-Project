@@ -2,6 +2,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+// UPGRADED VERSION — replaces your old ShoppingListManager.cs
+// Same logic, but the list now uses colors and strikethrough:
+//   collected  ->  green [X] + crossed-out gray name
+//   remaining  ->  orange [ ] + white name
 public class ShoppingListManager : MonoBehaviour
 {
     public static ShoppingListManager instance;
@@ -41,28 +45,34 @@ public class ShoppingListManager : MonoBehaviour
 
     void UpdateShoppingList()
     {
-        string displayText = "<b>SHOPPING LIST</b>\n\n";
+        string displayText =
+            "<b><color=#3DDC97>SHOPPING LIST</color></b>\n\n";
 
         foreach (string item in requiredItems)
         {
             if (collectedItems.Contains(item))
             {
-                displayText += "[X] " + item + "\n";
+                displayText +=
+                    "<color=#3DDC97>[X]</color> " +
+                    "<s><color=#8A9BB0>" + item + "</color></s>\n";
             }
             else
             {
-                displayText += "[ ] " + item + "\n";
+                displayText +=
+                    "<color=#FF9F43>[  ]</color> " +
+                    "<color=#F5F7FA>" + item + "</color>\n";
             }
         }
 
-        displayText += "\nItems: "
+        displayText += "\n<color=#F5F7FA>Items: "
             + collectedItems.Count
             + " / "
-            + requiredItems.Count;
+            + requiredItems.Count + "</color>";
 
         if (collectedItems.Count == requiredItems.Count)
         {
-            displayText += "\n\nGO TO CHECKOUT!";
+            displayText +=
+                "\n\n<b><color=#FF9F43>GO TO CHECKOUT!</color></b>";
         }
 
         shoppingListText.text = displayText;
